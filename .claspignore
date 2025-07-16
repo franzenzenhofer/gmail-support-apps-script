@@ -1,0 +1,24 @@
+# Ignore files that shouldn't be uploaded to Apps Script
+**/**
+!**/*.gs
+!**/*.html
+!appsscript.json
+
+# But still ignore these
+node_modules/
+.git/
+.gitignore
+README.md
+package.json
+package-lock.json
+.clasp.json
+.claspignore
+tsconfig.json
+.eslintrc.js
+.prettierrc
+tests/
+docs/
+dist/
+*.log
+.env
+.DS_Store

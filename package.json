@@ -1,0 +1,48 @@
+{
+  "name": "gmail-support-apps-script",
+  "version": "1.0.0",
+  "description": "Complete Gmail Support System - 100% Google Apps Script",
+  "scripts": {
+    "login": "clasp login",
+    "logout": "clasp logout",
+    "create": "clasp create --title 'Gmail Support System' --type webapp",
+    "clone": "clasp clone",
+    "pull": "clasp pull",
+    "push": "clasp push",
+    "push:watch": "clasp push --watch",
+    "deploy": "clasp deploy",
+    "deploy:prod": "npm run push && clasp deploy --description 'Production deployment'",
+    "undeploy": "clasp undeploy",
+    "logs": "clasp logs",
+    "logs:watch": "clasp logs --watch",
+    "open": "clasp open",
+    "status": "clasp status",
+    "test": "npm run push && clasp run runAllTests",
+    "version": "clasp version",
+    "lint": "eslint **/*.gs",
+    "format": "prettier --write **/*.{gs,html,json,md}",
+    "setup": "npm install && npm run login",
+    "dev": "npm run push:watch"
+  },
+  "keywords": [
+    "gmail",
+    "support",
+    "customer-service",
+    "google-apps-script",
+    "automation",
+    "ai",
+    "gemini"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@google/clasp": "^2.4.2",
+    "@types/google-apps-script": "^1.0.56",
+    "eslint": "^8.45.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
