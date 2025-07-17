@@ -2,6 +2,21 @@
 
 **Transform your Gmail into an intelligent support desk in 5 minutes!**
 
+## 📑 Table of Contents
+- [What This Does](#-what-this-does)
+- [Quick Start](#-quick-start-5-minutes)
+- [How It Works](#-how-it-works-simple-version)
+- [Documentation](#-documentation)
+- [Web Dashboard](#-web-dashboard)
+- [Real Examples](#-real-examples)
+- [Customization](#️-customization-optional)
+- [Features](#-what-you-get)
+- [Troubleshooting](#-troubleshooting)
+- [Pro Tips](#-pro-tips)
+- [Use Cases](#-use-cases)
+- [Pricing](#-pricing)
+- [Security](#-security)
+
 ## 🚀 What This Does
 
 This system automatically:
@@ -247,6 +262,29 @@ Perfect for:
 > "Finally, I can focus on growing my business!" - Startup Founder
 
 ---
+
+## 📚 Documentation
+
+### For Users
+- **[Getting Started Guide](GETTING_STARTED.md)** - First-time setup walkthrough
+- **[Deployment Guide](DEPLOYMENT_GUIDE.md)** - Advanced deployment options
+
+### For Developers  
+- **[Technical Documentation](TECHNICAL_DOCS.md)** - Complete API reference & architecture
+- **[Test Report](TEST_REPORT.md)** - Test coverage and code quality metrics
+
+### Ready-to-Use Scripts
+Check the `/bin` directory for 10 pre-configured scripts:
+1. **Customer Support Agent** - Front-line support automation
+2. **Support Manager** - Team oversight dashboard
+3. **IT Helpdesk** - Technical support specialist
+4. **AI Email Automation** - Pure AI-driven responses
+5. **Sales Inquiry Handler** - Lead qualification system
+6. **Multilingual Support** - 25+ language support
+7. **Enterprise Escalation** - VIP customer handling
+8. **Customer Feedback Analyzer** - Sentiment analysis
+9. **Compliance Audit Manager** - GDPR/regulatory compliance
+10. **Performance Optimizer** - System tuning dashboard
 
 ## 🚀 Ready to Start?
 
