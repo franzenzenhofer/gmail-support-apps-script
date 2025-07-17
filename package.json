@@ -17,7 +17,7 @@
     "logs:watch": "clasp logs --watch",
     "open": "clasp open",
     "status": "clasp status",
-    "test": "npm run push && clasp run runAllTests",
+    "test": "echo 'Running comprehensive tests...' && npm run push && clasp run runComprehensiveTests",
     "version": "clasp version",
     "lint": "eslint **/*.gs",
     "format": "prettier --write **/*.{gs,html,json,md}",
