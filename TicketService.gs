@@ -298,24 +298,74 @@ class TicketService {
   }
 
   /**
-   * Generate unique ticket ID
+   * Generate unique ticket ID with atomic counter
    */
   generateTicketId() {
-    const timestamp = Date.now().toString(36).toUpperCase();
-    const random = Math.random().toString(36).substring(2, 6).toUpperCase();
-    const counter = this.getAndIncrementCounter();
+    const lock = LockService.getScriptLock();
+    const maxRetries = 3;
+    let lastError;
     
-    return `${this.ticketPrefix}-${timestamp}-${random}-${counter}`;
+    for (let retry = 0; retry < maxRetries; retry++) {
+      try {
+        // Try to acquire lock
+        const hasLock = lock.tryLock(5000);
+        if (!hasLock) {
+          throw new Error('Could not acquire lock for ticket generation');
+        }
+        
+        // Use sharding to reduce contention
+        const shardId = Math.floor(Math.random() * 10); // 10 shards
+        const props = PropertiesService.getScriptProperties();
+        const counterKey = `ticket_counter_shard_${shardId}`;
+        
+        // Atomic read-increment-write
+        const counter = parseInt(props.getProperty(counterKey) || '10000');
+        const nextCounter = counter + 1;
+        
+        // Validate counter
+        if (isNaN(nextCounter) || nextCounter < counter) {
+          throw new Error(`Counter corruption detected in shard ${shardId}`);
+        }
+        
+        props.setProperty(counterKey, nextCounter.toString());
+        
+        // Generate ID with shard identifier
+        const date = new Date();
+        const dateStr = Utilities.formatDate(date, 'GMT', 'yyyyMMdd');
+        const paddedCounter = nextCounter.toString().padStart(6, '0');
+        
+        return `T-${dateStr}-${shardId}${paddedCounter}`;
+        
+      } catch (error) {
+        lastError = error;
+        console.error(`Ticket generation attempt ${retry + 1} failed:`, error);
+        
+        // Exponential backoff
+        if (retry < maxRetries - 1) {
+          Utilities.sleep(Math.pow(2, retry) * 1000);
+        }
+      } finally {
+        try {
+          lock.releaseLock();
+        } catch (e) {
+          // Already released
+        }
+      }
+    }
+    
+    // All retries failed - use timestamp fallback
+    console.error('All ticket generation attempts failed, using timestamp');
+    const timestamp = new Date().getTime();
+    const random = Math.floor(Math.random() * 1000);
+    return `T-FALLBACK-${timestamp}-${random}`;
   }
 
   /**
-   * Get and increment counter
+   * Get and increment counter - DEPRECATED
    */
   getAndIncrementCounter() {
-    const props = PropertiesService.getScriptProperties();
-    const counter = parseInt(props.getProperty('ticket_counter') || '1000');
-    props.setProperty('ticket_counter', (counter + 1).toString());
-    return counter;
+    // Kept for backward compatibility
+    return Math.floor(Math.random() * 100000);
   }
 
   /**
@@ -468,16 +518,28 @@ class TicketService {
   }
 
   /**
-   * Extract customer name
+   * Extract customer name with robust parsing
    */
   extractCustomerName(fromString) {
+    if (!fromString || typeof fromString !== 'string') {
+      return 'Unknown Customer';
+    }
+    
+    // Try to extract display name
     const match = fromString.match(/^([^<]+)</);
-    if (match) {
+    if (match && match[1]) {
       return match[1].trim();
     }
     
+    // Try to extract from email
     const emailMatch = fromString.match(/([^@]+)@/);
-    return emailMatch ? emailMatch[1].replace(/[._]/g, ' ') : 'Customer';
+    if (emailMatch && emailMatch[1]) {
+      return emailMatch[1]
+        .replace(/[._-]/g, ' ')
+        .replace(/\b\w/g, l => l.toUpperCase());
+    }
+    
+    return 'Customer';
   }
 
   /**
@@ -540,54 +602,138 @@ class TicketService {
   }
 
   /**
-   * Index ticket for search
+   * Index ticket for search with sharding
    */
   indexTicket(ticket) {
-    // Simple indexing - in production use proper search engine
-    const indexKey = 'ticket_index';
-    const props = PropertiesService.getScriptProperties();
-    
-    let index = JSON.parse(props.getProperty(indexKey) || '[]');
-    
-    // Add to index
-    index.push({
-      id: ticket.id,
-      subject: ticket.subject,
-      customer: ticket.customerEmail,
-      status: ticket.status,
-      priority: ticket.priority,
-      category: ticket.category,
-      createdAt: ticket.createdAt
-    });
-    
-    // Keep last 1000 entries
-    if (index.length > 1000) {
-      index = index.slice(-1000);
+    try {
+      const props = PropertiesService.getScriptProperties();
+      
+      // Use date-based sharding to avoid loading entire index
+      const shardKey = `ticket_index_${ticket.createdAt.substring(0, 10)}`; // Daily shards
+      let shard = [];
+      
+      try {
+        shard = JSON.parse(props.getProperty(shardKey) || '[]');
+      } catch (e) {
+        console.error('Failed to parse index shard:', e);
+        shard = [];
+      }
+      
+      // Add to shard
+      shard.push({
+        id: ticket.id,
+        created: ticket.createdAt
+      });
+      
+      // Keep only last 100 per shard
+      if (shard.length > 100) {
+        shard = shard.slice(-100);
+      }
+      
+      props.setProperty(shardKey, JSON.stringify(shard));
+      
+      // Update index metadata
+      this.updateIndexMetadata(shardKey);
+    } catch (error) {
+      console.error('Failed to index ticket:', error);
+      // Don't fail ticket creation due to indexing error
     }
-    
-    props.setProperty(indexKey, JSON.stringify(index));
+  }
+  
+  /**
+   * Update index metadata
+   */
+  updateIndexMetadata(shardKey) {
+    try {
+      const props = PropertiesService.getScriptProperties();
+      const metaKey = 'ticket_index_metadata';
+      
+      let metadata = {};
+      try {
+        metadata = JSON.parse(props.getProperty(metaKey) || '{}');
+      } catch (e) {
+        metadata = {};
+      }
+      
+      metadata[shardKey] = {
+        lastUpdated: new Date().toISOString(),
+        count: JSON.parse(props.getProperty(shardKey) || '[]').length
+      };
+      
+      // Clean old shards (older than 90 days)
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - 90);
+      
+      Object.keys(metadata).forEach(key => {
+        const date = key.match(/\d{4}-\d{2}-\d{2}/);
+        if (date && new Date(date[0]) < cutoff) {
+          delete metadata[key];
+          props.deleteProperty(key);
+        }
+      });
+      
+      props.setProperty(metaKey, JSON.stringify(metadata));
+    } catch (error) {
+      console.error('Failed to update index metadata:', error);
+    }
   }
 
   /**
-   * Get all tickets
+   * Get all tickets with pagination
    */
-  getAllTickets() {
+  getAllTickets(page = 1, pageSize = 50) {
     const props = PropertiesService.getScriptProperties();
-    const allProps = props.getProperties();
     
+    // Get index metadata to find shards
+    const metaKey = 'ticket_index_metadata';
+    let metadata = {};
+    
+    try {
+      metadata = JSON.parse(props.getProperty(metaKey) || '{}');
+    } catch (e) {
+      metadata = {};
+    }
+    
+    // Get sorted shard list
+    const shards = Object.keys(metadata)
+      .filter(k => k.startsWith('ticket_index_'))
+      .sort((a, b) => b.localeCompare(a)); // Newest first
+    
+    // Calculate pagination
     const tickets = [];
+    let skipped = 0;
+    const skip = (page - 1) * pageSize;
     
-    Object.keys(allProps).forEach(key => {
-      if (key.startsWith('ticket_') && !key.includes('_counter') && !key.includes('_index')) {
-        try {
-          tickets.push(JSON.parse(allProps[key]));
-        } catch (error) {
-          logError(`Failed to parse ticket ${key}`, { error: error.message });
+    // Get ticket keys (this is still a limitation but necessary)
+    const allProps = props.getProperties();
+    const ticketKeys = Object.keys(allProps)
+      .filter(k => k.startsWith('ticket_') && !k.includes('_counter') && !k.includes('_index') && !k.includes('_shard'))
+      .sort((a, b) => b.localeCompare(a)); // Newest first
+    
+    // Paginate
+    const startIdx = (page - 1) * pageSize;
+    const endIdx = startIdx + pageSize;
+    const pageKeys = ticketKeys.slice(startIdx, endIdx);
+    
+    // Load only needed tickets
+    for (const key of pageKeys) {
+      try {
+        const ticketData = allProps[key];
+        if (ticketData) {
+          tickets.push(JSON.parse(ticketData));
         }
+      } catch (error) {
+        console.error(`Failed to parse ticket ${key}:`, error);
       }
-    });
+    }
     
-    return tickets;
+    return {
+      tickets: tickets,
+      page: page,
+      pageSize: pageSize,
+      totalCount: ticketKeys.length,
+      totalPages: Math.ceil(ticketKeys.length / pageSize)
+    };
   }
 
   /**

@@ -90,24 +90,39 @@ class LoopPreventionService {
   }
 
   /**
-   * Check email frequency
+   * Check email frequency with thread-safe counting
    */
   checkFrequency(email, checks) {
-    const key = `freq_${this.hashEmail(email)}`;
-    const window = this.config.similarityWindow || 3600; // 1 hour
-    
-    const count = parseInt(this.cache.get(key) || '0');
-    
-    if (count >= (this.config.maxSimilarEmails || 3)) {
-      checks.reasons.push(`High frequency: ${count} similar emails in ${window}s`);
+    const lock = LockService.getScriptLock();
+    try {
+      // Try to acquire lock
+      lock.waitLock(1000);
+      
+      const key = `freq_${this.hashEmail(email)}`;
+      const window = this.config.similarityWindow || 3600; // 1 hour
+      
+      const count = parseInt(this.cache.get(key) || '0');
+      
+      if (count >= (this.config.maxSimilarEmails || 3)) {
+        checks.reasons.push(`High frequency: ${count} similar emails in ${window}s`);
+      }
+      
+      // Atomic update
+      this.cache.put(key, (count + 1).toString(), window);
+    } catch (error) {
+      console.error('Failed to check frequency:', error);
+      // Don't block on lock failure
+    } finally {
+      try {
+        lock.releaseLock();
+      } catch (e) {
+        // Lock already released
+      }
     }
-    
-    // Update count
-    this.cache.put(key, (count + 1).toString(), window);
   }
 
   /**
-   * Check reply chain depth
+   * Check reply chain depth with performance optimization
    */
   checkReplyChain(email, checks) {
     const reCount = (email.subject.match(/re:/gi) || []).length;
@@ -121,9 +136,15 @@ class LoopPreventionService {
       checks.reasons.push(`Multiple forwards: ${fwdCount} FWD:`);
     }
     
-    // Check for ping-pong pattern
-    if (email.messageCount > 10 && this.checkPingPongPattern(email)) {
-      checks.reasons.push('Ping-pong conversation pattern detected');
+    // Check for ping-pong pattern only if thread is reasonably sized
+    if (email.threadId && email.messageCount > 10 && email.messageCount < 100) {
+      try {
+        if (this.checkPingPongPattern(email)) {
+          checks.reasons.push('Ping-pong conversation pattern detected');
+        }
+      } catch (error) {
+        console.log('Ping-pong check failed:', error.message);
+      }
     }
   }
 
@@ -209,25 +230,44 @@ class LoopPreventionService {
   }
 
   /**
-   * Check for ping-pong pattern
+   * Check for ping-pong pattern with optimization
    */
   checkPingPongPattern(email) {
-    // Simple heuristic: rapid back-and-forth
-    const thread = Email.getThreadById(email.threadId);
-    if (!thread || !thread.messages) return false;
-    
-    const messages = thread.messages;
-    const senders = messages.map(m => m.from);
-    
-    // Check for alternating pattern
-    let alternating = 0;
-    for (let i = 1; i < senders.length; i++) {
-      if (senders[i] !== senders[i-1]) {
-        alternating++;
+    try {
+      const thread = GmailApp.getThreadById(email.threadId);
+      if (!thread) return false;
+      
+      const messageCount = thread.getMessageCount();
+      if (messageCount < 10) return false;
+      
+      // Only check recent messages to avoid memory issues
+      const checkLimit = Math.min(messageCount, 20);
+      const messages = thread.getMessages().slice(-checkLimit);
+      
+      if (!messages || messages.length < 10) return false;
+      
+      // Extract senders
+      const senders = messages.map(m => {
+        try {
+          return m.getFrom();
+        } catch (e) {
+          return null;
+        }
+      }).filter(s => s !== null);
+      
+      // Check for alternating pattern
+      let alternating = 0;
+      for (let i = 1; i < senders.length; i++) {
+        if (senders[i] !== senders[i-1]) {
+          alternating++;
+        }
       }
+      
+      return alternating > 8; // More than 8 alternations
+    } catch (error) {
+      console.error('Ping-pong check error:', error);
+      return false;
     }
-    
-    return alternating > 8; // More than 8 alternations
   }
 
   /**
@@ -253,14 +293,20 @@ class LoopPreventionService {
   }
 
   /**
-   * Hash email for deduplication
+   * Hash email for deduplication with better entropy
    */
   hashEmail(email) {
-    const content = `${email.from}|${email.subject}|${email.body.substring(0, 100)}`;
-    return Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, content)
+    const content = [
+      email.from || '',
+      email.subject || '',
+      (email.body || '').substring(0, 500),
+      email.date || '',
+      email.messageId || ''
+    ].join('|');
+    
+    return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA256, content)
       .map(byte => ('0' + (byte & 0xFF).toString(16)).slice(-2))
-      .join('')
-      .substring(0, 16);
+      .join(''); // Use full hash for better uniqueness
   }
 
   /**

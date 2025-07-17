@@ -80,8 +80,17 @@ class ErrorService {
    * Setup default recovery strategies
    */
   setupDefaultRecoveryStrategies() {
-    // Retry strategy
+    // Script execution time tracking
+    this.scriptStartTime = new Date();
+    this.maxScriptRuntime = 5.5 * 60 * 1000; // 5.5 minutes safety limit
+    
+    // Retry strategy with timeout check
     this.registerRecovery('retry', async (error, context) => {
+      // Check script timeout
+      if (this.isScriptTimingOut()) {
+        throw new Error('Script approaching time limit - aborting retries');
+      }
+      
       const attempt = context.attempt || 1;
       if (attempt > this.retryConfig.maxRetries) {
         throw new Error(`Max retries (${this.retryConfig.maxRetries}) exceeded`);
@@ -222,19 +231,37 @@ class ErrorService {
   }
 
   /**
+   * Check if script is timing out
+   */
+  isScriptTimingOut() {
+    return (new Date() - this.scriptStartTime) > this.maxScriptRuntime;
+  }
+  
+  /**
    * Wrap function with error handling
    */
   wrap(fn, options = {}) {
     const self = this;
+    const MAX_ATTEMPTS = 10;
+    const TIMEOUT = 5 * 60 * 1000; // 5 minutes
     
     return async function(...args) {
       let context = {
         functionName: fn.name || 'anonymous',
         attempt: 1,
+        startTime: new Date(),
         ...options
       };
       
-      while (true) {
+      while (context.attempt <= MAX_ATTEMPTS) {
+        // Check timeouts
+        if (new Date() - context.startTime > TIMEOUT) {
+          throw new Error('Operation timed out after 5 minutes');
+        }
+        if (self.isScriptTimingOut()) {
+          throw new Error('Script approaching 6-minute timeout limit');
+        }
+        
         try {
           // Start performance tracking
           const startTime = Date.now();
@@ -254,11 +281,14 @@ class ErrorService {
           
         } catch (error) {
           // Handle error
+          context.attempt++;
           const handled = await self.handle(error, context);
           
           // Check if should retry
-          if (handled.recovery && handled.recovery.retry) {
+          if (handled.recovery && handled.recovery.retry && context.attempt <= MAX_ATTEMPTS) {
             context = { ...context, ...handled.recovery };
+            // Exponential backoff
+            await Utilities.sleep(Math.min(1000 * context.attempt, 10000));
             continue;
           }
           
@@ -339,13 +369,46 @@ class ErrorService {
   }
 
   /**
-   * Add to error history
+   * Add to error history with memory management
    */
   addToHistory(errorEntry) {
-    this.errorHistory.unshift(errorEntry);
-    if (this.errorHistory.length > this.maxHistorySize) {
-      this.errorHistory.pop();
+    // Periodic cleanup
+    if (!this.lastCleanup) {
+      this.lastCleanup = new Date();
     }
+    
+    if (new Date() - this.lastCleanup > 30 * 60 * 1000) { // 30 minutes
+      this.cleanupErrorHistory();
+    }
+    
+    // Limit entry size to prevent memory bloat
+    const safeEntry = {
+      ...errorEntry,
+      message: (errorEntry.message || '').substring(0, 500),
+      stack: (errorEntry.stack || '').substring(0, 2000),
+      context: JSON.stringify(errorEntry.context || {}).substring(0, 1000)
+    };
+    
+    this.errorHistory.unshift(safeEntry);
+    if (this.errorHistory.length > this.maxHistorySize) {
+      this.errorHistory = this.errorHistory.slice(0, this.maxHistorySize);
+    }
+  }
+  
+  /**
+   * Cleanup old error history
+   */
+  cleanupErrorHistory() {
+    console.log('Cleaning up error history');
+    
+    const cutoff = new Date();
+    cutoff.setHours(cutoff.getHours() - 24); // Keep 24 hours
+    
+    this.errorHistory = this.errorHistory.filter(entry => {
+      return new Date(entry.timestamp) > cutoff;
+    });
+    
+    this.lastCleanup = new Date();
   }
 
   /**
