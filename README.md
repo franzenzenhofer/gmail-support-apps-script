@@ -132,6 +132,19 @@ Access it from the URL in your welcome email!
 
 ## 🛠️ Customization (Optional)
 
+### 🎨 Customize AI Behavior (NEW!)
+**No coding required!** Use our visual Prompt Editor:
+1. Go to **Extensions → Gmail Support → Edit AI Prompts**
+2. Choose what to customize:
+   - Response tone (friendly, formal, technical)
+   - Categories for your business
+   - Urgency triggers
+   - Language and style
+3. Preview changes in real-time
+4. Save and apply instantly!
+
+**[Full Customization Guide →](PROMPT_CUSTOMIZATION_GUIDE.md)**
+
 ### Add Your Own Answers
 1. Open the Knowledge Base spreadsheet
 2. Add rows with:
@@ -147,13 +160,13 @@ Edit these in Script Properties:
 - Email signature
 - Categories
 
-### Customize AI Responses
-Modify prompts in `AIService.gs`:
-```javascript
-tone: 'friendly', // Change to: professional, casual, formal
-includeSignature: true,
-addHelpfulLinks: true
-```
+### Industry Templates
+Pre-built prompt templates for:
+- E-commerce (order tracking, returns)
+- SaaS (technical support, APIs)
+- Healthcare (HIPAA compliant)
+- Financial (security focused)
+- Education (patient, detailed)
 
 ## 📊 What You Get
 
@@ -267,6 +280,7 @@ Perfect for:
 
 ### For Users
 - **[Getting Started Guide](GETTING_STARTED.md)** - First-time setup walkthrough
+- **[Prompt Customization Guide](PROMPT_CUSTOMIZATION_GUIDE.md)** - 🎨 Customize AI behavior & responses
 - **[Deployment Guide](DEPLOYMENT_GUIDE.md)** - Advanced deployment options
 
 ### For Developers  
