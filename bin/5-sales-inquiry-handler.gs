@@ -77,24 +77,24 @@ function processSalesInquiry(email) {
   
   // Handle based on inquiry type
   switch (inquiry.type) {
-    case 'demo_request':
-      handleDemoRequest(email, lead, inquiry);
-      break;
+  case 'demo_request':
+    handleDemoRequest(email, lead, inquiry);
+    break;
     
-    case 'pricing_inquiry':
-      handlePricingInquiry(email, lead, inquiry);
-      break;
+  case 'pricing_inquiry':
+    handlePricingInquiry(email, lead, inquiry);
+    break;
     
-    case 'feature_question':
-      handleFeatureQuestion(email, lead, inquiry);
-      break;
+  case 'feature_question':
+    handleFeatureQuestion(email, lead, inquiry);
+    break;
     
-    case 'partnership':
-      handlePartnershipInquiry(email, lead, inquiry);
-      break;
+  case 'partnership':
+    handlePartnershipInquiry(email, lead, inquiry);
+    break;
     
-    default:
-      handleGeneralInquiry(email, lead, inquiry);
+  default:
+    handleGeneralInquiry(email, lead, inquiry);
   }
   
   // Send to CRM
@@ -259,8 +259,8 @@ function handleDemoRequest(email, lead, inquiry) {
 Thank you for your interest in a demo! I'd be happy to show you how our solution can help ${inquiry.company || 'your organization'}.
 
 ${lead.priority === 'high' ? 
-  'Based on your requirements, I\'ve flagged this as a priority and our enterprise team will reach out within 2 hours.' :
-  'You can schedule a demo at your convenience using the link below:'
+    'Based on your requirements, I\'ve flagged this as a priority and our enterprise team will reach out within 2 hours.' :
+    'You can schedule a demo at your convenience using the link below:'
 }
 
 ${SALES_CONFIG.calendlyLink || '[Demo Scheduling Link]'}
@@ -271,7 +271,7 @@ In the meantime, here are some resources you might find helpful:
 • ROI Calculator: [Link]
 
 ${inquiry.timeline === 'immediate' ? 
-  'I see you\'re looking to move quickly. I\'ll have our team prioritize your request.' : ''
+    'I see you\'re looking to move quickly. I\'ll have our team prioritize your request.' : ''
 }
 
 Best regards,
@@ -302,8 +302,8 @@ function handlePricingInquiry(email, lead, inquiry) {
 Thank you for your interest in our pricing!
 
 ${lead.score > 50 ? 
-  'Based on your requirements, I\'d recommend our Enterprise plan which includes:' :
-  'Here\'s an overview of our pricing plans:'
+    'Based on your requirements, I\'d recommend our Enterprise plan which includes:' :
+    'Here\'s an overview of our pricing plans:'
 }
 
 • Starter: $99/month - Up to 10 users
@@ -313,8 +313,8 @@ ${lead.score > 50 ?
 You can see detailed pricing and features at: ${SALES_CONFIG.pricingPage}
 
 ${inquiry.company && lead.score > 30 ? 
-  `For ${inquiry.company}, I can prepare a custom quote that includes volume discounts and enterprise features. Would you like me to schedule a brief call to discuss your specific needs?` :
-  'Would you like to schedule a call to discuss which plan would work best for you?'
+    `For ${inquiry.company}, I can prepare a custom quote that includes volume discounts and enterprise features. Would you like me to schedule a brief call to discuss your specific needs?` :
+    'Would you like to schedule a call to discuss which plan would work best for you?'
 }
 
 Best regards,

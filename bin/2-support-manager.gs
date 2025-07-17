@@ -139,7 +139,7 @@ function checkSLACompliance() {
   
   slaStatus.complianceRate = 
     slaStatus.total > 0 ? 
-    ((slaStatus.compliant / slaStatus.total) * 100).toFixed(1) : 100;
+      ((slaStatus.compliant / slaStatus.total) * 100).toFixed(1) : 100;
   
   return slaStatus;
 }

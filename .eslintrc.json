@@ -1,0 +1,41 @@
+{
+  "env": {
+    "es6": true,
+    "googleappsscript/googleappsscript": true
+  },
+  "extends": "eslint:recommended",
+  "plugins": ["googleappsscript"],
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "rules": {
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^e$" }],
+    "no-undef": "off",
+    "no-redeclare": "off",
+    "no-console": "off",
+    "indent": ["error", 2],
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", "never"],
+    "arrow-spacing": "error",
+    "prefer-const": "error",
+    "no-var": "error"
+  },
+  "globals": {
+    "SpreadsheetApp": "readonly",
+    "DriveApp": "readonly",
+    "GmailApp": "readonly",
+    "UrlFetchApp": "readonly",
+    "PropertiesService": "readonly",
+    "ScriptApp": "readonly",
+    "DocumentApp": "readonly",
+    "CacheService": "readonly",
+    "Utilities": "readonly",
+    "Logger": "readonly",
+    "console": "readonly",
+    "HtmlService": "readonly",
+    "ContentService": "readonly",
+    "Session": "readonly",
+    "LockService": "readonly"
+  }
+}

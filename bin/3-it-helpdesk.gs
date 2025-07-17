@@ -77,7 +77,7 @@ function isITRelated(ticket) {
   
   // Check for IT-specific terms
   const itTerms = ['computer', 'laptop', 'software', 'hardware', 'network', 
-                   'server', 'database', 'application', 'system', 'IT'];
+    'server', 'database', 'application', 'system', 'IT'];
   
   return itTerms.some(term => content.includes(term));
 }
@@ -152,17 +152,17 @@ function categorizeITIssue(ticket) {
  */
 function executeAutomatedSolution(ticket, category) {
   switch (category) {
-    case 'password_reset':
-      return automatedPasswordReset(ticket);
+  case 'password_reset':
+    return automatedPasswordReset(ticket);
     
-    case 'software_install':
-      return automatedSoftwareProvisioning(ticket);
+  case 'software_install':
+    return automatedSoftwareProvisioning(ticket);
     
-    case 'access_request':
-      return processAccessRequest(ticket);
+  case 'access_request':
+    return processAccessRequest(ticket);
     
-    default:
-      return { success: false };
+  default:
+    return { success: false };
   }
 }
 
@@ -370,7 +370,7 @@ function generateLicenseKey() {
 function extractSoftwareRequest(ticket) {
   const content = ticket.description.toLowerCase();
   const commonSoftware = ['microsoft office', 'adobe creative', 'slack', 'zoom', 
-                         'visual studio', 'intellij', 'photoshop', 'autocad'];
+    'visual studio', 'intellij', 'photoshop', 'autocad'];
   
   for (const software of commonSoftware) {
     if (content.includes(software.toLowerCase())) {

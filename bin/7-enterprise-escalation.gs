@@ -610,18 +610,18 @@ function generateHTMLDashboard(metrics) {
   <div class="metric">
     <h2>Escalation Levels</h2>
     ${Object.entries(metrics.byLevel).map(([level, count]) => 
-      `<p>${level}: ${count}</p>`
-    ).join('')}
+    `<p>${level}: ${count}</p>`
+  ).join('')}
   </div>
   
   <div class="metric">
     <h2>Top Issues</h2>
     ${Object.entries(metrics.topIssues)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
-      .map(([issue, count]) => 
-        `<p>${issue}: ${count}</p>`
-      ).join('')}
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([issue, count]) => 
+      `<p>${issue}: ${count}</p>`
+    ).join('')}
   </div>
 </body>
 </html>`;

@@ -333,23 +333,23 @@ function applyOptimizations(bottlenecks) {
  */
 function optimizeBottleneck(bottleneck) {
   switch (bottleneck.type) {
-    case 'processing_time':
-      return optimizeProcessingTime();
+  case 'processing_time':
+    return optimizeProcessingTime();
     
-    case 'memory_usage':
-      return optimizeMemoryUsage();
+  case 'memory_usage':
+    return optimizeMemoryUsage();
     
-    case 'api_quota':
-      return optimizeAPIUsage();
+  case 'api_quota':
+    return optimizeAPIUsage();
     
-    case 'error_rate':
-      return optimizeErrorHandling();
+  case 'error_rate':
+    return optimizeErrorHandling();
     
-    case 'cache_performance':
-      return optimizeCaching();
+  case 'cache_performance':
+    return optimizeCaching();
     
-    default:
-      return { applied: false };
+  default:
+    return { applied: false };
   }
 }
 
@@ -917,11 +917,11 @@ function generatePerformanceDashboard(metrics, optimizations, predictions) {
     <div class="metric-card">
       <h2>Applied Optimizations</h2>
       ${optimizations.map(opt => 
-        `<div class="optimization">
+    `<div class="optimization">
           <strong>${opt.description}</strong><br>
           Impact: ${opt.impact}
         </div>`
-      ).join('')}
+  ).join('')}
     </div>
   </div>
 </body>

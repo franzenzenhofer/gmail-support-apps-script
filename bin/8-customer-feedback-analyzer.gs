@@ -178,7 +178,7 @@ function analyzeSentiment(text) {
   // Enhanced sentiment with emotion detection
   const emotions = detectEmotions(text);
   
-  let score = aiAnalysis.score;
+  const score = aiAnalysis.score;
   let label = 'neutral';
   
   if (score >= FEEDBACK_CONFIG.sentimentThresholds.positive) {
@@ -901,8 +901,8 @@ function generateFeedbackDashboard(insights, trends) {
   <div class="metric">
     <h3>Top Issues</h3>
     ${Object.entries(insights.topCategories).map(([cat, count]) => 
-      `<p>${cat}: ${count}</p>`
-    ).join('')}
+    `<p>${cat}: ${count}</p>`
+  ).join('')}
   </div>
 </body>
 </html>`;

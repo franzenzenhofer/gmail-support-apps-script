@@ -131,17 +131,17 @@ function checkRegulationCompliance(regulation, config) {
   };
   
   switch (regulation) {
-    case 'GDPR':
-      return checkGDPRCompliance(config);
+  case 'GDPR':
+    return checkGDPRCompliance(config);
     
-    case 'CCPA':
-      return checkCCPACompliance(config);
+  case 'CCPA':
+    return checkCCPACompliance(config);
     
-    case 'HIPAA':
-      return checkHIPAACompliance(config);
+  case 'HIPAA':
+    return checkHIPAACompliance(config);
     
-    default:
-      return status;
+  default:
+    return status;
   }
 }
 
@@ -218,25 +218,25 @@ function processPrivacyRequests() {
       console.log(`Processing ${request.type} request from ${email.from}`);
       
       switch (request.type) {
-        case 'access':
-          handleAccessRequest(email, request);
-          break;
+      case 'access':
+        handleAccessRequest(email, request);
+        break;
         
-        case 'erasure':
-          handleErasureRequest(email, request);
-          break;
+      case 'erasure':
+        handleErasureRequest(email, request);
+        break;
         
-        case 'portability':
-          handlePortabilityRequest(email, request);
-          break;
+      case 'portability':
+        handlePortabilityRequest(email, request);
+        break;
         
-        case 'rectification':
-          handleRectificationRequest(email, request);
-          break;
+      case 'rectification':
+        handleRectificationRequest(email, request);
+        break;
         
-        case 'objection':
-          handleObjectionRequest(email, request);
-          break;
+      case 'objection':
+        handleObjectionRequest(email, request);
+        break;
       }
       
       processedRequests.push(request);
@@ -790,8 +790,8 @@ Found sensitive data in ${findings.total} tickets.
 
 Types detected:
 ${Object.entries(findings.byType).map(([type, count]) => 
-  `• ${type}: ${count} instances`
-).join('\n')}
+    `• ${type}: ${count} instances`
+  ).join('\n')}
 
 Affected tickets have been automatically masked.
 
@@ -926,8 +926,8 @@ function generateHTMLAuditReport(report) {
     <table>
       <tr><th>Type</th><th>Count</th></tr>
       ${Object.entries(report.privacyRequests.byType).map(([type, count]) => 
-        `<tr><td>${type}</td><td>${count}</td></tr>`
-      ).join('')}
+    `<tr><td>${type}</td><td>${count}</td></tr>`
+  ).join('')}
     </table>
   </div>
   
