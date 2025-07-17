@@ -168,6 +168,36 @@ class AIService {
   buildEmailAnalysisPrompt(email, options) {
     const { includeHistory = false, focusAreas = [] } = options;
     
+    // Check if PromptConfigService exists and use it
+    if (typeof PromptConfigService !== 'undefined') {
+      try {
+        // Get customer history if available
+        const customerHistory = {
+          history: includeHistory ? `Message ${email.messageCount} in conversation` : 'First contact',
+          previousTickets: 0 // Could be enhanced with actual data
+        };
+        
+        // Get configured prompt
+        let prompt = PromptConfigService.getPrompt(
+          PromptConfigService.PROMPT_KEYS.EMAIL_ANALYSIS,
+          {
+            email: email,
+            customer: customerHistory
+          }
+        );
+        
+        // Add focus areas if specified
+        if (focusAreas.length > 0) {
+          prompt += `\n\nPay special attention to: ${focusAreas.join(', ')}`;
+        }
+        
+        return prompt;
+      } catch (error) {
+        console.log('Using fallback prompt:', error);
+      }
+    }
+    
+    // Fallback to default prompt
     let prompt = `Analyze this customer support email and provide detailed insights.
 
 Email Details:
@@ -204,9 +234,43 @@ Provide a comprehensive analysis including:
       knowledgeArticles = [],
       customerHistory = null,
       tone = 'professional',
-      includeSignature = true 
+      includeSignature = true,
+      analysis = {},
+      customInstructions = '',
+      minLength = 100,
+      maxLength = 300
     } = context;
     
+    // Check if PromptConfigService exists and use it
+    if (typeof PromptConfigService !== 'undefined') {
+      try {
+        // Get configured prompt
+        return PromptConfigService.getPrompt(
+          PromptConfigService.PROMPT_KEYS.RESPONSE_GENERATION,
+          {
+            context: JSON.stringify(context),
+            email: email,
+            analysis: analysis,
+            customer: customerHistory || {
+              name: email.from.split('@')[0],
+              ticketCount: 0,
+              since: new Date().toISOString(),
+              vip: false
+            },
+            knowledgeArticles: knowledgeArticles,
+            tone: tone,
+            signature: includeSignature ? 'Support Team' : '',
+            customInstructions: customInstructions,
+            minLength: minLength,
+            maxLength: maxLength
+          }
+        );
+      } catch (error) {
+        console.log('Using fallback reply prompt:', error);
+      }
+    }
+    
+    // Fallback to default prompt
     let prompt = `Generate a helpful customer support response to this email.
 
 Customer Email:

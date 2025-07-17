@@ -271,6 +271,7 @@ Perfect for:
 
 ### For Developers  
 - **[Technical Documentation](TECHNICAL_DOCS.md)** - Complete API reference & architecture
+- **[Technical Deep Dive](TECHNICAL_DEEP_DIVE.md)** - From zero to 100: How everything works
 - **[Test Report](TEST_REPORT.md)** - Test coverage and code quality metrics
 
 ### Ready-to-Use Scripts
