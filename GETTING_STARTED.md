@@ -183,14 +183,15 @@ Choose one or more knowledge sources:
 **Option C: External Sources**
 ```javascript
 // Add to knowledgeBase.sources array
+// Example: Replace with your actual API endpoint
 {
   type: 'api',
-  name: 'Company API',
+  name: 'Your Company API',
   config: {
-    endpoint: 'https://api.company.com/kb/search',
-    apiKey: 'your_api_key',
+    endpoint: 'https://your-api-endpoint.com/kb/search',  // Replace with your API URL
+    apiKey: 'your_api_key',  // Replace with your API key
     headers: {
-      'Authorization': 'Bearer your_token'
+      'Authorization': 'Bearer your_token'  // Optional: Add auth headers if needed
     }
   }
 }

@@ -1,10 +1,10 @@
 # 📧 Welcome Email Example
 
-This is the actual welcome email that users receive after installing the Gmail Support System:
+This is an example of the welcome email that users receive after installing the Gmail Support System. The actual email will contain your real URLs and configuration details.
 
 ---
 
-![Gmail Support System](https://via.placeholder.com/600x150/4285f4/ffffff?text=Gmail+Support+System)
+*Note: In the actual email, the banner image and URLs below will be replaced with your specific installation details.*
 
 # 🎉 Your Gmail Support System is Ready!
 
@@ -41,12 +41,12 @@ Within 5 minutes, you'll see:
 ## 🎮 Your Control Panel
 
 ### 🌐 Web Dashboard
-[**Open Your Dashboard →**](https://script.google.com/your-web-app-url)
+[**Open Your Dashboard →**](https://script.google.com/your-web-app-url) *(Your actual dashboard URL)*
 
 View tickets, metrics, and manage your support system.
 
 ### 📚 Knowledge Base
-[**Edit Knowledge Base →**](https://docs.google.com/spreadsheets/your-kb-url)
+[**Edit Knowledge Base →**](https://docs.google.com/spreadsheets/your-kb-url) *(Your actual spreadsheet URL)*
 
 Add your FAQs to make AI responses more accurate.
 
