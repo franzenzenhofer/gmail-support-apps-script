@@ -26,12 +26,34 @@
       "message": "Status: 200"
     },
     {
+      "url": "https://github.com/franzenzenhofer/gmail-support-apps-script",
+      "files": [
+        "DocumentationGenerator.gs",
+        "DocumentationGenerator.gs",
+        "ImprovedWelcomeEmail.gs",
+        "GETTING_STARTED.md",
+        "TECHNICAL_DOCS.md",
+        "DISTRIBUTION_STRATEGY.md",
+        "WELCOME_EMAIL_EXAMPLE.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
       "url": "https://script.google.com",
       "files": [
         "DocumentationGenerator.gs",
         "README.md",
         "GETTING_STARTED.md",
         "GETTING_STARTED.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://your-api-endpoint.com/kb",
+      "files": [
+        "DocumentationGenerator.gs"
       ],
       "status": "success",
       "message": "Status: 200"
@@ -81,19 +103,15 @@
       "message": "Status: 200"
     },
     {
-      "url": "https://github.com/franzenzenhofer/gmail-support-apps-script",
+      "url": "https://mail.google.com",
       "files": [
-        "ImprovedWelcomeEmail.gs",
-        "GETTING_STARTED.md",
-        "TECHNICAL_DOCS.md",
-        "DISTRIBUTION_STRATEGY.md",
-        "WELCOME_EMAIL_EXAMPLE.md"
+        "GETTING_STARTED.md"
       ],
       "status": "success",
       "message": "Status: 200"
     },
     {
-      "url": "https://mail.google.com",
+      "url": "https://your-api-endpoint.com/kb/search",
       "files": [
         "GETTING_STARTED.md"
       ],
@@ -175,14 +193,6 @@
   ],
   "fail": [
     {
-      "url": "https://support.company.com/tickets/",
-      "files": [
-        "EscalationService.gs"
-      ],
-      "status": "fail",
-      "message": "Connection error"
-    },
-    {
       "url": "https://api.github.com/repos/$",
       "files": [
         "QuickDeploy.gs"
@@ -207,16 +217,7 @@
       "message": "Status: 404"
     },
     {
-      "url": "https://github.com/your-username/gmail-support-genius",
-      "files": [
-        "DocumentationGenerator.gs",
-        "DocumentationGenerator.gs"
-      ],
-      "status": "fail",
-      "message": "Status: 404"
-    },
-    {
-      "url": "https://api.example.com/kb",
+      "url": "https://your-company-api.com/search",
       "files": [
         "DocumentationGenerator.gs"
       ],
@@ -224,15 +225,7 @@
       "message": "Connection error"
     },
     {
-      "url": "https://api.company.com/search",
-      "files": [
-        "DocumentationGenerator.gs"
-      ],
-      "status": "fail",
-      "message": "Connection error"
-    },
-    {
-      "url": "https://generativelanguage.googleapis.com/v1beta/models/",
+      "url": "https://generativelanguage.googleapis.com/v1beta/models",
       "files": [
         "AIService.gs"
       ],
@@ -242,43 +235,11 @@
     {
       "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$",
       "files": [
-        "Code.gs"
+        "Code.gs",
+        "TECHNICAL_DEEP_DIVE.md"
       ],
       "status": "fail",
       "message": "Status: 404"
-    },
-    {
-      "url": "https://help.company.com",
-      "files": [
-        "AutoReplyService.gs",
-        "AutoReplyService.gs"
-      ],
-      "status": "fail",
-      "message": "Connection error"
-    },
-    {
-      "url": "https://dev-api.example.com",
-      "files": [
-        "EnterpriseFeatures.gs"
-      ],
-      "status": "fail",
-      "message": "Connection error"
-    },
-    {
-      "url": "https://staging-api.example.com",
-      "files": [
-        "EnterpriseFeatures.gs"
-      ],
-      "status": "fail",
-      "message": "Connection error"
-    },
-    {
-      "url": "https://api.example.com",
-      "files": [
-        "EnterpriseFeatures.gs"
-      ],
-      "status": "fail",
-      "message": "Connection error"
     },
     {
       "url": "https://docs.google.com/spreadsheets/d/$",
@@ -330,15 +291,7 @@
       "message": "Status: 404"
     },
     {
-      "url": "https://api.company.com/kb/search",
-      "files": [
-        "GETTING_STARTED.md"
-      ],
-      "status": "fail",
-      "message": "Connection error"
-    },
-    {
-      "url": "https://www.googleapis.com/auth/script.external_request",
+      "url": "https://www.googleapis.com/auth/script.scriptapp",
       "files": [
         "DISTRIBUTION_STRATEGY.md"
       ],
@@ -349,22 +302,6 @@
       "url": "https://analytics.example.com/track",
       "files": [
         "DISTRIBUTION_STRATEGY.md"
-      ],
-      "status": "fail",
-      "message": "Connection error"
-    },
-    {
-      "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$",
-      "files": [
-        "TECHNICAL_DEEP_DIVE.md"
-      ],
-      "status": "fail",
-      "message": "Status: 404"
-    },
-    {
-      "url": "https://via.placeholder.com/600x150/4285f4/ffffff?text=Gmail+Support+System",
-      "files": [
-        "WELCOME_EMAIL_EXAMPLE.md"
       ],
       "status": "fail",
       "message": "Connection error"

@@ -56,7 +56,7 @@ https://github.com/franzenzenhofer/gmail-support-apps-script
     "https://www.googleapis.com/auth/gmail.modify",
     "https://www.googleapis.com/auth/gmail.send",
     "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/script.scriptapp"
+    "https://www.googleapis.com/auth/script.external_request"
   ]
 }
 ```
@@ -303,7 +303,8 @@ class Analytics {
     };
     
     // Send to analytics service
-    UrlFetchApp.fetch('https://analytics.example.com/track', {
+    // Replace with your actual analytics endpoint
+    UrlFetchApp.fetch('https://your-analytics-endpoint.com/track', {
       method: 'post',
       contentType: 'application/json',
       payload: JSON.stringify(payload)
