@@ -36,7 +36,7 @@ class StorageValidator {
   
   static validatePropertySize(key, data) {
     const serialized = typeof data === 'string' ? data : JSON.stringify(data);
-    const sizeBytes = new Blob([serialized]).size;
+    const sizeBytes = Utilities.newBlob(serialized).getBytes().length;
     
     if (sizeBytes > this.MAX_PROPERTY_SIZE) {
       throw new Error(
@@ -50,7 +50,7 @@ class StorageValidator {
   
   static validateCacheSize(key, data) {
     const serialized = typeof data === 'string' ? data : JSON.stringify(data);
-    const sizeBytes = new Blob([serialized]).size;
+    const sizeBytes = Utilities.newBlob(serialized).getBytes().length;
     
     if (sizeBytes > this.MAX_CACHE_SIZE) {
       console.warn(`Cache data too large for ${key}: ${(sizeBytes/1024).toFixed(1)}KB`);
@@ -68,7 +68,7 @@ class StorageValidator {
     const usage = {};
     
     Object.entries(allProps).forEach(([key, value]) => {
-      const size = new Blob([value]).size;
+      const size = Utilities.newBlob(value).getBytes().length;
       totalSize += size;
       usage[key] = size;
     });
