@@ -56,7 +56,7 @@ https://github.com/franzenzenhofer/gmail-support-apps-script
     "https://www.googleapis.com/auth/gmail.modify",
     "https://www.googleapis.com/auth/gmail.send",
     "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/script.external_request"
+    "https://www.googleapis.com/auth/script.scriptapp"
   ]
 }
 ```

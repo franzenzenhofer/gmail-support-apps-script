@@ -9,7 +9,7 @@ class AIService {
   constructor() {
     this.config = Config.get('gemini');
     this.apiKey = this.getApiKey();
-    this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/';
+    this.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models';
     this.model = this.config.model || 'gemini-1.5-flash';
     this.cache = CacheService.getScriptCache();
   }
@@ -99,7 +99,7 @@ class AIService {
       }
     }
     
-    const url = `${this.baseUrl}${this.model}:generateContent?key=${this.apiKey}`;
+    const url = `${this.baseUrl}/${this.model}:generateContent?key=${this.apiKey}`;
     
     const payload = {
       contents: [{

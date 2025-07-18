@@ -1,0 +1,399 @@
+{
+  "success": [
+    {
+      "url": "https://makersuite.google.com",
+      "files": [
+        "AutoDocGenerator.gs",
+        "Code.gs"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://www.google.com",
+      "files": [
+        "QuickDeploy.gs"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/franzenzenhofer/gmail-support-apps-script/main/QuickDeploy.gs",
+      "files": [
+        "QuickDeploy.gs"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://script.google.com",
+      "files": [
+        "DocumentationGenerator.gs",
+        "README.md",
+        "GETTING_STARTED.md",
+        "GETTING_STARTED.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://makersuite.google.com/app/apikey",
+      "files": [
+        "CriticalBugFixes.gs",
+        "INSTALLER.gs",
+        "README.md",
+        "GETTING_STARTED.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://api.github.com",
+      "files": [
+        "KnowledgeBaseService.gs"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://github.com/franzenzenhofer/gmail-support-apps-script/blob/main/GETTING_STARTED.md",
+      "files": [
+        "ImprovedWelcomeEmail.gs"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://github.com/franzenzenhofer/gmail-support-apps-script/blob/main/PROMPT_CUSTOMIZATION_GUIDE.md",
+      "files": [
+        "ImprovedWelcomeEmail.gs"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://github.com/franzenzenhofer/gmail-support-apps-script/issues",
+      "files": [
+        "ImprovedWelcomeEmail.gs",
+        "WELCOME_EMAIL_EXAMPLE.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://github.com/franzenzenhofer/gmail-support-apps-script",
+      "files": [
+        "ImprovedWelcomeEmail.gs",
+        "GETTING_STARTED.md",
+        "TECHNICAL_DOCS.md",
+        "DISTRIBUTION_STRATEGY.md",
+        "WELCOME_EMAIL_EXAMPLE.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://mail.google.com",
+      "files": [
+        "GETTING_STARTED.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://developers.google.com/apps-script/reference",
+      "files": [
+        "TECHNICAL_DOCS.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://developers.google.com/gmail/api",
+      "files": [
+        "TECHNICAL_DOCS.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://ai.google.dev/docs",
+      "files": [
+        "TECHNICAL_DOCS.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://www.googleapis.com/auth/gmail.modify",
+      "files": [
+        "DISTRIBUTION_STRATEGY.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://www.googleapis.com/auth/gmail.send",
+      "files": [
+        "DISTRIBUTION_STRATEGY.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://www.googleapis.com/auth/spreadsheets",
+      "files": [
+        "DISTRIBUTION_STRATEGY.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://api.github.com/repos/franzenzenhofer/gmail-support-apps-script/zipball/main",
+      "files": [
+        "DISTRIBUTION_STRATEGY.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://script.google.com/macros/s/$",
+      "files": [
+        "TECHNICAL_DEEP_DIVE.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    },
+    {
+      "url": "https://script.google.com/your-web-app-url",
+      "files": [
+        "WELCOME_EMAIL_EXAMPLE.md"
+      ],
+      "status": "success",
+      "message": "Status: 200"
+    }
+  ],
+  "fail": [
+    {
+      "url": "https://support.company.com/tickets/",
+      "files": [
+        "EscalationService.gs"
+      ],
+      "status": "fail",
+      "message": "Connection error"
+    },
+    {
+      "url": "https://api.github.com/repos/$",
+      "files": [
+        "QuickDeploy.gs"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://api.github.com/repos/franzenzenhofer/gmail-support-apps-script/contents?ref=$",
+      "files": [
+        "QuickDeploy.gs"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://api.github.com/repos/franzenzenhofer/gmail-support-apps-script/releases/tags/v$",
+      "files": [
+        "QuickDeploy.gs"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://github.com/your-username/gmail-support-genius",
+      "files": [
+        "DocumentationGenerator.gs",
+        "DocumentationGenerator.gs"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://api.example.com/kb",
+      "files": [
+        "DocumentationGenerator.gs"
+      ],
+      "status": "fail",
+      "message": "Connection error"
+    },
+    {
+      "url": "https://api.company.com/search",
+      "files": [
+        "DocumentationGenerator.gs"
+      ],
+      "status": "fail",
+      "message": "Connection error"
+    },
+    {
+      "url": "https://generativelanguage.googleapis.com/v1beta/models/",
+      "files": [
+        "AIService.gs"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$",
+      "files": [
+        "Code.gs"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://help.company.com",
+      "files": [
+        "AutoReplyService.gs",
+        "AutoReplyService.gs"
+      ],
+      "status": "fail",
+      "message": "Connection error"
+    },
+    {
+      "url": "https://dev-api.example.com",
+      "files": [
+        "EnterpriseFeatures.gs"
+      ],
+      "status": "fail",
+      "message": "Connection error"
+    },
+    {
+      "url": "https://staging-api.example.com",
+      "files": [
+        "EnterpriseFeatures.gs"
+      ],
+      "status": "fail",
+      "message": "Connection error"
+    },
+    {
+      "url": "https://api.example.com",
+      "files": [
+        "EnterpriseFeatures.gs"
+      ],
+      "status": "fail",
+      "message": "Connection error"
+    },
+    {
+      "url": "https://docs.google.com/spreadsheets/d/$",
+      "files": [
+        "INSTALLER.gs"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://schema.org/extensions",
+      "files": [
+        "NotificationService.gs"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://api.github.com/repos/franzenzenhofer/gmail-support-apps-script/releases/latest",
+      "files": [
+        "UpdateService.gs",
+        "UPDATE_DISTRIBUTION_STRATEGY.md"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://api.notion.com/v1/databases/",
+      "files": [
+        "KnowledgeBaseService.gs"
+      ],
+      "status": "fail",
+      "message": "Status: 401"
+    },
+    {
+      "url": "https://drive.google.com/drive/folders/FOLDER_ID",
+      "files": [
+        "GETTING_STARTED.md"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://docs.google.com/spreadsheets/d/SHEET_ID",
+      "files": [
+        "GETTING_STARTED.md"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://api.company.com/kb/search",
+      "files": [
+        "GETTING_STARTED.md"
+      ],
+      "status": "fail",
+      "message": "Connection error"
+    },
+    {
+      "url": "https://www.googleapis.com/auth/script.external_request",
+      "files": [
+        "DISTRIBUTION_STRATEGY.md"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://analytics.example.com/track",
+      "files": [
+        "DISTRIBUTION_STRATEGY.md"
+      ],
+      "status": "fail",
+      "message": "Connection error"
+    },
+    {
+      "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$",
+      "files": [
+        "TECHNICAL_DEEP_DIVE.md"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    },
+    {
+      "url": "https://via.placeholder.com/600x150/4285f4/ffffff?text=Gmail+Support+System",
+      "files": [
+        "WELCOME_EMAIL_EXAMPLE.md"
+      ],
+      "status": "fail",
+      "message": "Connection error"
+    },
+    {
+      "url": "https://docs.google.com/spreadsheets/your-kb-url",
+      "files": [
+        "WELCOME_EMAIL_EXAMPLE.md"
+      ],
+      "status": "fail",
+      "message": "Status: 404"
+    }
+  ],
+  "skip": [
+    {
+      "url": "https://example.com/icon.png",
+      "files": [
+        "DISTRIBUTION_STRATEGY.md"
+      ],
+      "status": "skip",
+      "message": "Local/example URL"
+    },
+    {
+      "url": "https://example.com/logo.png",
+      "files": [
+        "DISTRIBUTION_STRATEGY.md"
+      ],
+      "status": "skip",
+      "message": "Local/example URL"
+    }
+  ]
+}
