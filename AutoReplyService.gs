@@ -173,7 +173,7 @@ class AutoReplyService {
       category: analysis.category,
       urgency: analysis.urgency,
       currentDate: new Date().toLocaleDateString(),
-      supportEmail: this.config.supportEmail || 'support@company.com'
+      supportEmail: this.config.supportEmail || Session.getActiveUser().getEmail()
     };
     
     const body = this.replaceVariables(template.body, variables);
@@ -262,7 +262,7 @@ ${this.getClosing()}`;
 
 Thank you for contacting our support team. I've received your message regarding "${email.subject}".
 
-I'm currently reviewing your request and will get back to you with a detailed response shortly. In the meantime, you might find our help center useful: ${this.config.helpCenterUrl || 'https://help.company.com'}
+I'm currently reviewing your request and will get back to you with a detailed response shortly.${this.config.helpCenterUrl ? ` In the meantime, you might find our help center useful: ${this.config.helpCenterUrl}` : ''}
 
 Your ticket reference is: ${ticket.id}
 
@@ -447,7 +447,7 @@ ${this.config.companyName || 'Customer Support'}`;
   getAdditionalHelp() {
     return `If you need any further assistance or have additional questions, please don't hesitate to reply to this email.
 
-You can also check our help center for more resources: ${this.config.helpCenterUrl || 'https://help.company.com'}`;
+You can also check our help center for more resources${this.config.helpCenterUrl ? `: ${this.config.helpCenterUrl}` : '.'}`;
   }
 
   /**
