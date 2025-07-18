@@ -7,7 +7,7 @@
 
 class UpdateService {
   static CURRENT_VERSION = '2.0.0';
-  static UPDATE_CHECK_URL = 'https://api.github.com/repos/franzenzenhofer/gmail-support-apps-script/releases/latest';
+  static UPDATE_CHECK_URL = 'https://api.github.com/repos/franzenzenhofer/gmail-support-apps-script/releases/latest'; // Note: Create releases in GitHub for this to work
   static LAST_CHECK_KEY = 'last_update_check';
   static VERSION_KEY = 'installed_version';
   
@@ -32,7 +32,19 @@ class UpdateService {
     
     try {
       // Get latest release info
-      const response = UrlFetchApp.fetch(this.UPDATE_CHECK_URL);
+      const response = UrlFetchApp.fetch(this.UPDATE_CHECK_URL, {
+        muteHttpExceptions: true
+      });
+      
+      if (response.getResponseCode() === 404) {
+        console.log('No releases found - using current version');
+        return {
+          updateAvailable: false,
+          currentVersion: this.getCurrentVersion(),
+          latestVersion: this.getCurrentVersion()
+        };
+      }
+      
       const release = JSON.parse(response.getContentText());
       
       // Update last check time

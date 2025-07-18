@@ -503,19 +503,19 @@ class BackupService {
 class EnvironmentConfig {
   static ENVIRONMENTS = {
     'development': {
-      apiUrl: 'https://dev-api.example.com',
+      apiUrl: '', // Set your development API URL here
       debugMode: true,
       emailPrefix: '[DEV] ',
       quotaMultiplier: 0.1
     },
     'staging': {
-      apiUrl: 'https://staging-api.example.com',
+      apiUrl: '', // Set your staging API URL here
       debugMode: true,
       emailPrefix: '[STAGING] ',
       quotaMultiplier: 0.5
     },
     'production': {
-      apiUrl: 'https://api.example.com',
+      apiUrl: '', // Set your production API URL here
       debugMode: false,
       emailPrefix: '',
       quotaMultiplier: 1.0
