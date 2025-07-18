@@ -465,7 +465,12 @@ Customer Support Team`;
   }
 
   getTicketUrl(ticketId) {
-    const baseUrl = this.config.ticketBaseUrl || 'https://support.company.com/tickets/';
+    const baseUrl = this.config.ticketBaseUrl;
+    if (!baseUrl) {
+      // Return internal dashboard URL if no external URL configured
+      const webAppUrl = ScriptApp.getService().getUrl();
+      return `${webAppUrl}?ticket=${ticketId}`;
+    }
     return `${baseUrl}${ticketId}`;
   }
 

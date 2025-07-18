@@ -70,8 +70,8 @@ This isn't just another Gmail automation tool. This is a **complete enterprise-g
 ### Method 1: One-Click Deploy
 \`\`\`bash
 # Clone and deploy instantly
-git clone https://github.com/your-username/gmail-support-genius
-cd gmail-support-genius
+git clone https://github.com/franzenzenhofer/gmail-support-apps-script
+cd gmail-support-apps-script
 npm run deploy:production
 \`\`\`
 
@@ -372,7 +372,7 @@ Full OpenAPI 3.0 specification available at \`/api/docs/openapi.json\`
       },
       {
         type: 'api',
-        endpoint: 'https://api.example.com/kb'
+        endpoint: 'https://your-api-endpoint.com/kb'
       }
     ]
   }
@@ -659,7 +659,7 @@ addKnowledgeSource({
   id: 'company-api',
   name: 'Company Knowledge API',
   config: {
-    endpoint: 'https://api.company.com/search',
+    endpoint: 'https://your-company-api.com/search',
     apiKey: 'your-api-key'
   }
 });
@@ -773,7 +773,7 @@ We welcome contributions from developers who want to make customer support autom
 
 \`\`\`bash
 # Clone your fork
-git clone https://github.com/your-username/gmail-support-genius
+git clone https://github.com/franzenzenhofer/gmail-support-apps-script
 
 # Install dependencies
 npm install
