@@ -1,24 +1,15 @@
-# Ignore files that shouldn't be uploaded to Apps Script
-**/**
-!**/*.gs
-!**/*.html
-!appsscript.json
-
-# But still ignore these
+# Clasp ignore file
 node_modules/
+tests/
+*.md
 .git/
-.gitignore
-README.md
+.github/
+deploy.js
 package.json
 package-lock.json
-.clasp.json
-.claspignore
-tsconfig.json
-.eslintrc.js
-.prettierrc
-tests/
-docs/
-dist/
-*.log
-.env
-.DS_Store
+README.md
+CLAUDE.md
+*.test.js
+jest.config.js
+function_analysis_report.json
+url_test_results.json

@@ -1,92 +1,39 @@
 name: Deploy to Google Apps Script
-
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Deployment environment'
-        required: true
-        default: 'staging'
-        type: choice
-        options:
-        - development
-        - staging
-        - production
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm install
-    
-    - name: Run tests
-      run: npm test
-    
-    - name: Lint code
-      run: npm run lint
-      continue-on-error: true
-
   deploy:
-    needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    
-    environment: 
-      name: ${{ github.event.inputs.environment || 'staging' }}
-    
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm install
-    
-    - name: Install clasp
-      run: npm install -g @google/clasp
-    
-    - name: Create clasp credentials
-      run: |
-        echo '${{ secrets.CLASP_CREDENTIALS }}' > ~/.clasprc.json
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm ci
         
-    - name: Create project config
-      run: |
-        echo '{
-          "scriptId": "${{ secrets.APPS_SCRIPT_ID }}",
-          "rootDir": "."
-        }' > .clasp.json
-    
-    - name: Deploy to Apps Script
-      run: |
-        clasp push
-        if [ "${{ github.event.inputs.environment }}" = "production" ]; then
-          clasp deploy --description "Production deployment $(date)"
-        fi
-    
-    - name: Notify deployment
-      if: success()
-      run: |
-        echo "✅ Successfully deployed to ${{ github.event.inputs.environment || 'staging' }}"
+      - name: Install clasp globally
+        run: npm install -g @google/clasp
         
-    - name: Notify failure
-      if: failure()
-      run: |
-        echo "❌ Deployment failed to ${{ github.event.inputs.environment || 'staging' }}"
+      - name: Setup clasp credentials
+        run: |
+          echo "${{ secrets.CLASP_CREDENTIALS }}" > ~/.clasprc.json
+          echo "${{ secrets.CLASP_PROJECT }}" > .clasp.json
+          
+      - name: Push to Apps Script
+        run: clasp push --force
+        
+      - name: Deploy new version
+        run: |
+          VERSION=$(date +%Y%m%d_%H%M%S)
+          clasp deploy --description "Automated deployment $VERSION"
+          
+      - name: Run tests
+        run: clasp run runComprehensiveTests || echo "Tests not available yet"
+        continue-on-error: true

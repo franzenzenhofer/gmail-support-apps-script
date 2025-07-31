@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Modern, clean UI design */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      opacity: 0.9;
+      font-size: 1.1em;
+    }
+    
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .metric-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+    
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .metric-value {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #667eea;
+      margin: 10px 0;
+    }
+    
+    .metric-label {
+      color: #666;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .ticket-table {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .table-header {
+      background-color: #667eea;
+      color: white;
+      padding: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th {
+      background-color: #f8f9fa;
+      color: #666;
+      font-weight: 600;
+      padding: 15px;
+      text-align: left;
+      border-bottom: 2px solid #eee;
+    }
+    
+    td {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    tr:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 500;
+    }
+    
+    .status-open {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .status-escalated {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
+    .status-resolved {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
+    
+    .priority-urgent {
+      color: #d73502;
+      font-weight: bold;
+    }
+    
+    .priority-high {
+      color: #f57c00;
+      font-weight: bold;
+    }
+    
+    .priority-medium {
+      color: #fbc02d;
+    }
+    
+    .priority-low {
+      color: #388e3c;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 50px;
+      color: #666;
+    }
+    
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    
+    .refresh-btn {
+      background-color: #667eea;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.2s;
+    }
+    
+    .refresh-btn:hover {
+      background-color: #5a67d8;
+    }
+    
+    .actions {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    
+    .chart-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+    
+    .chart-title {
+      font-size: 1.2em;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      height: 150px;
+      gap: 10px;
+    }
+    
+    .bar {
+      flex: 1;
+      background-color: #667eea;
+      border-radius: 5px 5px 0 0;
+      position: relative;
+      transition: background-color 0.2s;
+    }
+    
+    .bar:hover {
+      background-color: #5a67d8;
+    }
+    
+    .bar-label {
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.85em;
+      color: #666;
+      white-space: nowrap;
+    }
+    
+    .bar-value {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 50px;
+      color: #666;
+    }
+    
+    .empty-state h3 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+    
+    @media (max-width: 768px) {
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header h1 {
+        font-size: 2em;
+      }
+      
+      .table-container {
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📧 Gmail Support Dashboard</h1>
+      <p>First-Level Customer Support System</p>
+    </div>
+    
+    <div class="actions">
+      <button class="refresh-btn" onclick="loadDashboard()">🔄 Refresh</button>
+    </div>
+    
+    <div id="content" class="loading">
+      Loading dashboard data...
+    </div>
+  </div>
+  
+  <script>
+    // Load dashboard data on page load
+    window.onload = function() {
+      loadDashboard();
+    };
+    
+    function loadDashboard() {
+      document.getElementById('content').innerHTML = '<div class="loading">Loading dashboard data...</div>';
+      
+      google.script.run
+        .withSuccessHandler(displayDashboard)
+        .withFailureHandler(showError)
+        .getDashboardData();
+    }
+    
+    function displayDashboard(data) {
+      const content = document.getElementById('content');
+      
+      if (!data || !data.metrics) {
+        content.innerHTML = '<div class="error">Failed to load dashboard data</div>';
+        return;
+      }
+      
+      // Build metrics cards
+      let html = '<div class="metrics-grid">';
+      
+      html += `
+        <div class="metric-card">
+          <div class="metric-label">Total Tickets</div>
+          <div class="metric-value">${data.metrics.total || 0}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Open Tickets</div>
+          <div class="metric-value">${data.metrics.open || 0}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Escalated</div>
+          <div class="metric-value">${data.metrics.escalated || 0}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Auto-Replied</div>
+          <div class="metric-value">${data.metrics.autoReplied || 0}</div>
+        </div>
+      `;
+      
+      html += '</div>';
+      
+      // Add category chart
+      if (data.metrics.categories && Object.keys(data.metrics.categories).length > 0) {
+        html += '<div class="chart-container">';
+        html += '<div class="chart-title">Tickets by Category</div>';
+        html += '<div class="bar-chart">';
+        
+        const maxValue = Math.max(...Object.values(data.metrics.categories));
+        
+        for (const [category, count] of Object.entries(data.metrics.categories)) {
+          const height = (count / maxValue) * 100;
+          html += `
+            <div class="bar" style="height: ${height}%">
+              <div class="bar-value">${count}</div>
+              <div class="bar-label">${category}</div>
+            </div>
+          `;
+        }
+        
+        html += '</div></div>';
+      }
+      
+      // Add ticket table
+      html += '<div class="ticket-table">';
+      html += '<div class="table-header">Recent Tickets</div>';
+      
+      if (data.tickets && data.tickets.length > 0) {
+        html += '<div class="table-container"><table>';
+        html += `
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Subject</th>
+              <th>Customer</th>
+              <th>Category</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody>
+        `;
+        
+        data.tickets.forEach(ticket => {
+          const statusClass = ticket.escalated ? 'escalated' : ticket.status;
+          const priorityClass = `priority-${ticket.priority}`;
+          const createdDate = new Date(ticket.createdAt).toLocaleDateString();
+          
+          html += `
+            <tr>
+              <td>${ticket.id}</td>
+              <td>${escapeHtml(ticket.subject || 'No subject')}</td>
+              <td>${escapeHtml(ticket.customerEmail)}</td>
+              <td>${ticket.category}</td>
+              <td class="${priorityClass}">${ticket.priority}</td>
+              <td><span class="status-badge status-${statusClass}">${ticket.escalated ? 'Escalated' : ticket.status}</span></td>
+              <td>${createdDate}</td>
+            </tr>
+          `;
+        });
+        
+        html += '</tbody></table></div>';
+      } else {
+        html += `
+          <div class="empty-state">
+            <h3>No tickets yet</h3>
+            <p>Support tickets will appear here when customers email your support address</p>
+          </div>
+        `;
+      }
+      
+      html += '</div>';
+      
+      content.innerHTML = html;
+    }
+    
+    function showError(error) {
+      const content = document.getElementById('content');
+      content.innerHTML = `
+        <div class="error">
+          <strong>Error loading dashboard:</strong><br>
+          ${error.message || error}
+        </div>
+      `;
+    }
+    
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

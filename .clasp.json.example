@@ -1,0 +1,21 @@
+{
+  "scriptId": "YOUR_SCRIPT_ID_HERE",
+  "rootDir": "./src",
+  "fileExtension": "gs",
+  "filePushOrder": [
+    "ConfigService.gs",
+    "DebugService.gs", 
+    "LoggingService.gs",
+    "ErrorService.gs",
+    "EmailService.gs",
+    "AIService.gs",
+    "KnowledgeBaseService.gs",
+    "TicketService.gs",
+    "LoopPreventionService.gs",
+    "DeploymentService.gs",
+    "TestRunner.gs",
+    "ComprehensiveTests.gs",
+    "DocumentationGenerator.gs",
+    "Code.gs"
+  ]
+}

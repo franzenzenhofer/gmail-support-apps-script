@@ -17,12 +17,18 @@
     "logs:watch": "clasp logs --watch",
     "open": "clasp open",
     "status": "clasp status",
-    "test": "echo 'Running comprehensive tests...' && npm run push && clasp run runComprehensiveTests",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:gas": "clasp run runComprehensiveTests",
     "version": "clasp version",
     "lint": "eslint **/*.gs",
     "format": "prettier --write **/*.{gs,html,json,md}",
     "setup": "npm install && npm run login",
-    "dev": "npm run push:watch"
+    "dev": "npm run push:watch",
+    "dev:test": "npm run test:watch",
+    "run": "clasp run",
+    "run:function": "clasp run --function"
   },
   "keywords": [
     "gmail",
@@ -36,10 +42,14 @@
   "author": "Your Name",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.22.0",
+    "@babel/preset-env": "^7.22.0",
     "@google/clasp": "^2.4.2",
     "@types/google-apps-script": "^1.0.56",
+    "babel-jest": "^29.5.0",
     "eslint": "^8.45.0",
     "eslint-plugin-googleappsscript": "^1.0.5",
+    "jest": "^29.5.0",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6"
   },

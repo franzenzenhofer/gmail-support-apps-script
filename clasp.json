@@ -1,5 +1,5 @@
 {
-  "rootDir": ".",
+  "rootDir": "src",
   "fileExtension": "gs",
   "filePushOrder": [
     "ConfigService.gs",
