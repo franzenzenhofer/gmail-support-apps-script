@@ -19,18 +19,23 @@ class AIService {
    * Get API key from config or properties
    */
   getApiKey() {
+    // First check Script Properties (highest priority)
+    const props = PropertiesService.getScriptProperties();
+    const propKey = props.getProperty('GEMINI_API_KEY');
+    
+    if (propKey && propKey !== '' && propKey !== 'YOUR_GEMINI_API_KEY_HERE') {
+      return propKey;
+    }
+    
+    // Then check config
     if (this.config.apiKey && this.config.apiKey !== 'YOUR_GEMINI_API_KEY_HERE') {
       return this.config.apiKey;
     }
     
-    const props = PropertiesService.getScriptProperties();
-    const apiKey = props.getProperty('GEMINI_API_KEY');
-    
-    if (!apiKey) {
-      throw new Error('Gemini API key not configured. Please set GEMINI_API_KEY in script properties.');
-    }
-    
-    return apiKey;
+    // No valid key found
+    console.error('❌ GEMINI API KEY NOT SET!');
+    console.error('Run systemCheck() for instructions on how to set it.');
+    throw new Error('Gemini API key not configured. Run systemCheck() for help.');
   }
 
   /**

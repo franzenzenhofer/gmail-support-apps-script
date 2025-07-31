@@ -1,5 +1,8 @@
 /**
- * ConfigService.gs - Centralized Configuration Management
+ * AAAConfigService.gs - Centralized Configuration Management
+ * 
+ * IMPORTANT: This file is named with AAA prefix to ensure it loads BEFORE AIService
+ * This ensures ConfigService class is available when AIService tries to use it
  * 
  * This service manages all configuration settings for the support system.
  * Provides a single source of truth for all modules.
